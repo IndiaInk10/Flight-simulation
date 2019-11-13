@@ -5,22 +5,22 @@
 #include "inc/GL/GLAUX.H"
 #include <gl/glut.h>
 
-#pragma comment(lib, "legacy_stdio_definitions.lib") // "GLAUX.H" ¿ÜºÎÂüÁ¶±âÈ£
+#pragma comment(lib, "legacy_stdio_definitions.lib") // "GLAUX.H" ì™¸ë¶€ì°¸ì¡°ê¸°í˜¸
 #pragma comment(lib,"opengl32.lib")
-#pragma comment(lib,"glut32.lib") // glut32.dll ¹®Á¦ ±âÁ¸¿¡ Á¦°¡ »ç¿ëÇÏ´ø freeglut.dllÀ» glut32.dlll·Î ÀÌ¸§ º¯°æÇÏ¿© ÇÁ·ÎÁ§Æ® Æú´õ¿¡ »ğÀÔ
+#pragma comment(lib,"glut32.lib") // glut32.dll ë¬¸ì œ ê¸°ì¡´ì— ì œê°€ ì‚¬ìš©í•˜ë˜ freeglut.dllì„ glut32.dllë¡œ ì´ë¦„ ë³€ê²½í•˜ì—¬ í”„ë¡œì íŠ¸ í´ë”ì— ì‚½ì…
 #pragma comment(lib,"glu32.lib") 
 #pragma comment(lib,"glaux.lib")
 
-//°´Ã¼
-Terrain* terrain;//ÁöÇü
-Skybox* skybox;//½ºÄ«ÀÌ¹Ú½º
-Camera cam;//Ä«¸Ş¶ó
+//ê°ì²´
+Terrain* terrain;//ì§€í˜•
+Skybox* skybox;//ìŠ¤ì¹´ì´ë°•ìŠ¤
+Camera cam;//ì¹´ë©”ë¼
 
-bool keyPressed[256];//Å°º¸µåÀÔ·Â»óÈ²¹è¿­
-void myKeyboard(unsigned char key,int x,int y){keyPressed[key]=true;}//ÇØ´ç¹è¿­ÀÌ true¸é Key down
-void myKeyboardUp(unsigned char key,int x,int y){keyPressed[key]=false;}//ÇØ´ç¹è¿­ÀÌ false¸é Key Up
+bool keyPressed[256];//í‚¤ë³´ë“œì…ë ¥ìƒí™©ë°°ì—´
+void myKeyboard(unsigned char key,int x,int y){keyPressed[key]=true;}//í•´ë‹¹ë°°ì—´ì´ trueë©´ Key down
+void myKeyboardUp(unsigned char key,int x,int y){keyPressed[key]=false;}//í•´ë‹¹ë°°ì—´ì´ falseë©´ Key Up
 
-void dispose(); // Á¾·á½Ã ¼öÇàµÇ´Â ÇÔ¼ö
+void dispose(); // ì¢…ë£Œì‹œ ìˆ˜í–‰ë˜ëŠ” í•¨ìˆ˜
 void Display(); // display callback
 void Idle(); // idle callback
 void Reshape(GLint w, GLint h); // reshape callback
@@ -30,32 +30,32 @@ int main(int argc,char **argv){
 	glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_RGB|GLUT_DEPTH|GLUT_DOUBLE);
 
-	// À©µµ¿ì¼³Á¤
+	// ìœˆë„ìš°ì„¤ì •
 	glutInitWindowSize(640,480);
 	glutInitWindowPosition(400,30);
 	glutCreateWindow("CGproject_final");
 
-	// Äİ¹éÇÔ¼öµî·Ï
+	// ì½œë°±í•¨ìˆ˜ë“±ë¡
 	glutReshapeFunc(Reshape);
 	glutDisplayFunc(Display);
 	glutIdleFunc(Idle);
 	glutKeyboardFunc(myKeyboard);
 	glutKeyboardUpFunc(myKeyboardUp);
 
-	// ±íÀÌ¹öÆÛ, ÈÄ¸éÁ¦°ÅÈ°¼ºÈ­
+	// ê¹Šì´ë²„í¼, í›„ë©´ì œê±°í™œì„±í™”
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	// Terrain, Skybox°´Ã¼
+	// Terrain, Skyboxê°ì²´
 	terrain=new Terrain("space/terrain1.raw","space/snow512.bmp",257,257);
 	skybox=new Skybox();
 
-	// ºäÆ÷Æ®¿Í Ä«¸Ş¶ó ¼³Á¤
+	// ë·°í¬íŠ¸ì™€ ì¹´ë©”ë¼ ì„¤ì •
 	cam.set(4,4,4,0,0,0,0,1,0);
 	cam.setShape(60.0f,64.0f/48.0f,0.5f,1000.0f);
 	
-	// Ä«¸Ş¶óÀÇ ÃÊ±âÀ§Ä¡¿Í È¸Àü°¢
-	// ¼³Á¤À» ¸¶Ä£ Ä«¸Ş¶ó°¡ Ã³À½¿¡ ¾îµğ¿¡¼­ ¾îµğ¸¦ º¸°íÀÖÀ»Áö °áÁ¤
+	// ì¹´ë©”ë¼ì˜ ì´ˆê¸°ìœ„ì¹˜ì™€ íšŒì „ê°
+	// ì„¤ì •ì„ ë§ˆì¹œ ì¹´ë©”ë¼ê°€ ì²˜ìŒì— ì–´ë””ì—ì„œ ì–´ë””ë¥¼ ë³´ê³ ìˆì„ì§€ ê²°ì •
 	cam.slide(0,100,0);
 	cam.roll(0);
 	cam.yaw(180);
@@ -82,58 +82,58 @@ void Display(){
 
 	glScalef(1.0f,0.2f,1.0f);
 	glPushMatrix();
-		terrain->RenderTerrain(cam.eye.x,cam.eye.z);//ÁöÇüÀ» ±×¸°´Ù.ÁÂÇ¥¸¦ º¸³»ÁÖ´Â ÀÌÀ¯´Â Ä«¸Ş¶ó°¡ À§Ä¡ÇÑ Å¸ÀÏºí·°ÀÇ ÁÂÇ¥¸¦ °è»êÇÏ±â À§ÇØ pptÂüÁ¶
+		terrain->RenderTerrain(cam.eye.x,cam.eye.z);//ì§€í˜•ì„ ê·¸ë¦°ë‹¤.ì¢Œí‘œë¥¼ ë³´ë‚´ì£¼ëŠ” ì´ìœ ëŠ” ì¹´ë©”ë¼ê°€ ìœ„ì¹˜í•œ íƒ€ì¼ë¸”ëŸ­ì˜ ì¢Œí‘œë¥¼ ê³„ì‚°í•˜ê¸° ìœ„í•´ pptì°¸ì¡°
 	glPopMatrix();
-	fog(); // ¼ö¸é¾Æ·¡ ¾È°³È¿°ú
+	fog(); // ìˆ˜ë©´ì•„ë˜ ì•ˆê°œíš¨ê³¼
 	glFlush();
-	glutSwapBuffers();//´õºí¹öÆÛ¸µ
+	glutSwapBuffers();//ë”ë¸”ë²„í¼ë§
 }
-void Idle(){//ÇØ´çÅ°°¡ ´­·ÁÀÖ´ÂÁö Áö¼ÓÀûÀ¸·Î °Ë»çÇØ ´ÙÁßÀÔ·ÂÀ» ÇÒ¼ö ÀÖ°Ô ÇÑ´Ù
+void Idle(){//í•´ë‹¹í‚¤ê°€ ëˆŒë ¤ìˆëŠ”ì§€ ì§€ì†ì ìœ¼ë¡œ ê²€ì‚¬í•´ ë‹¤ì¤‘ì…ë ¥ì„ í• ìˆ˜ ìˆê²Œ í•œë‹¤
 	if (keyPressed['1'])glPolygonMode(GL_FRONT, GL_LINE);
 	if (keyPressed['2'])glPolygonMode(GL_FRONT, GL_FILL);
 	if (keyPressed['d']){cam.slide(0.2,0,0);}
 	if (keyPressed['a']){cam.slide(-0.2,0,0);}
 	if (keyPressed['s']){cam.slide(0,0,1.0);}
 	if (keyPressed['w']){cam.slide(0,0,-1.0);}
-	if (cam.eye.y<terrain->getHeight(cam.eye.x,cam.eye.z)){cam.slide(0,1.0,0);}// °£´ÜÇÑ Colision Detection ÁöÇ¥¸é ¾Æ·¡·Î Ä«¸Ş¶ó°¡ ³»·Á°¥¶§´Â ÁöÇ¥¸é À§·Î À¯Áö½ÃÅ´
+	if (cam.eye.y<terrain->getHeight(cam.eye.x,cam.eye.z)){cam.slide(0,1.0,0);}// ê°„ë‹¨í•œ Colision Detection ì§€í‘œë©´ ì•„ë˜ë¡œ ì¹´ë©”ë¼ê°€ ë‚´ë ¤ê°ˆë•ŒëŠ” ì§€í‘œë©´ ìœ„ë¡œ ìœ ì§€ì‹œí‚´
 	if (keyPressed['k']){cam.pitch(-0.5);}
 	if (keyPressed['i']){cam.pitch(0.5);}
 	if (keyPressed['q']){cam.yaw(-0.5);}
 	if (keyPressed['e']){cam.yaw(0.5);}
 	if (keyPressed['j']){cam.roll(0.5);}
 	if (keyPressed['l']){cam.roll(-0.5);}
-	else {cam.slide(0,0,0);} //¾Æ¹«°Íµµ ´­¸®Áö ¾Ê¾ÒÀ»¶§´Â ÀÌµ¿¾ø´Ù°í º¸°í °è¼Ó ¸ğµ¨ºä Çà·ÄÀ» À¯Áö½ÃÄÑÁØ´Ù.
-	glutPostRedisplay();// ´Ù½Ã±×¸®±â
+	else {cam.slide(0,0,0);} //ì•„ë¬´ê²ƒë„ ëˆŒë¦¬ì§€ ì•Šì•˜ì„ë•ŒëŠ” ì´ë™ì—†ë‹¤ê³  ë³´ê³  ê³„ì† ëª¨ë¸ë·° í–‰ë ¬ì„ ìœ ì§€ì‹œì¼œì¤€ë‹¤.
+	glutPostRedisplay();// ë‹¤ì‹œê·¸ë¦¬ê¸°
 }
-void Reshape(GLint w, GLint h){//¸®¼ÎÀÌÇÁ Äİ¹é
-	glViewport(0, 0, w, h);//ºäÆ÷Æ®¼³Á¤
-	glMatrixMode(GL_PROJECTION);//¿ø±ÙÅõ»óÀ» À§ÇÑ Åõ»óÇà·Ä
-	glLoadIdentity();// ´ÜÀ§Çà·Ä
-	gluPerspective(40.0, static_cast<GLdouble>(w/h), 1.0, 3000.0);//¿ø±ÙÅõ»ó¼³Á¤
+void Reshape(GLint w, GLint h){//ë¦¬ì…°ì´í”„ ì½œë°±
+	glViewport(0, 0, w, h);//ë·°í¬íŠ¸ì„¤ì •
+	glMatrixMode(GL_PROJECTION);//ì›ê·¼íˆ¬ìƒì„ ìœ„í•œ íˆ¬ìƒí–‰ë ¬
+	glLoadIdentity();// ë‹¨ìœ„í–‰ë ¬
+	gluPerspective(40.0, static_cast<GLdouble>(w/h), 1.0, 3000.0);//ì›ê·¼íˆ¬ìƒì„¤ì •
 }
-void dispose(){//ÇÁ·Î±×·¥ Á¾·á½Ã °´Ã¼¹İÈ¯
+void dispose(){//í”„ë¡œê·¸ë¨ ì¢…ë£Œì‹œ ê°ì²´ë°˜í™˜
 	delete terrain;
 	delete skybox;
 	delete &cam;
 }
 void fog(){
-	//GL_FOG¸¦ È°¼ºÈ­ ÇÑ´Ù.
+	//GL_FOGë¥¼ í™œì„±í™” í•œë‹¤.
 	glEnable(GL_FOG);
-	//¾È°³ÀÇ ³óµµÂ÷ÀÌ¸¦ °áÁ¤ÇÏ´Â ÀÎÀÚ (GL_LINEAR, GL_EXP, GL_EXP2)
+	//ì•ˆê°œì˜ ë†ë„ì°¨ì´ë¥¼ ê²°ì •í•˜ëŠ” ì¸ì (GL_LINEAR, GL_EXP, GL_EXP2)
 	glFogi(GL_FOG_MODE,GL_EXP2);
-	//ViewerÀÇ Y°¡ waterLevelº¸´Ù ÀÛÀ¸¸é, Áï ¹°¼Ó¿¡ ÀÖ´Ù¸é
+	//Viewerì˜ Yê°€ waterLevelë³´ë‹¤ ì‘ìœ¼ë©´, ì¦‰ ë¬¼ì†ì— ìˆë‹¤ë©´
 	GLfloat waterFogColor[4]={0.0,0.6,0.6,5.0};
 	GLfloat fogColor[4]={0.75,0.75,0.75,0.0};
 	if(cam.eye.y<(terrain->waterLevel-75)){
-		//¾È°³ »ö»óÀ» waterFogColor(0.0,0.6,0.6,1.0)À¸·Î º¯°æÇÏ°í
+		//ì•ˆê°œ ìƒ‰ìƒì„ waterFogColor(0.0,0.6,0.6,1.0)ìœ¼ë¡œ ë³€ê²½í•˜ê³ 
 		glFogfv(GL_FOG_COLOR,waterFogColor);
-		//¾È°³ °Å¸®¸¦ waterFogDensity(0.075)·Î º¯°æÇØ¼­ ¹°¼ÓÀÌ¶ó´Â ´À³¦À» ÁÖ°Ô ÇÑ´Ù.
+		//ì•ˆê°œ ê±°ë¦¬ë¥¼ waterFogDensity(0.075)ë¡œ ë³€ê²½í•´ì„œ ë¬¼ì†ì´ë¼ëŠ” ëŠë‚Œì„ ì£¼ê²Œ í•œë‹¤.
 		glFogf(GL_FOG_DENSITY,0.075);
 	}
-	else {//¾Æ´Ï¸é 
-		//¾È°³ »ö»óÀ» fogColor(0.7,0.7.0.7,1) º¯°æÇÏ°í
+	else {//ì•„ë‹ˆë©´ 
+		//ì•ˆê°œ ìƒ‰ìƒì„ fogColor(0.7,0.7.0.7,1) ë³€ê²½í•˜ê³ 
 		glFogfv(GL_FOG_COLOR,fogColor);
-		//¾È°³ °Å¸®¸¦ fogDensity(0.002) º¯°æÇØ¼­ ¹°¹ÛÀÌ¶ó´Â ´À³¦À» ÁÖ°Ô ÇÑ´Ù.
+		//ì•ˆê°œ ê±°ë¦¬ë¥¼ fogDensity(0.002) ë³€ê²½í•´ì„œ ë¬¼ë°–ì´ë¼ëŠ” ëŠë‚Œì„ ì£¼ê²Œ í•œë‹¤.
 		glFogf(GL_FOG_DENSITY,0.001);
 	}
 }
