@@ -7,8 +7,8 @@
 
 #pragma comment(lib, "legacy_stdio_definitions.lib") // "GLAUX.H" 외부참조기호
 #pragma comment(lib,"opengl32.lib")
-#pragma comment(lib,"glut32.lib")
-#pragma comment(lib,"glu32.lib") // glu32.dll 문제 기존에 제가 사용하던 freeglut.dll을 glut32.dlll로 이름 변경하여 프로젝트 파일에 삽입
+#pragma comment(lib,"glut32.lib") // glut32.dll 문제 기존에 제가 사용하던 freeglut.dll을 glut32.dlll로 이름 변경하여 프로젝트 폴더에 삽입
+#pragma comment(lib,"glu32.lib") 
 #pragma comment(lib,"glaux.lib")
 
 //객체
